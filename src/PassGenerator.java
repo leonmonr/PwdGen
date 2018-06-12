@@ -213,6 +213,7 @@ public class PassGenerator {
 					i = args.length;
 					break;
 				}
+				
 			}
 			//Si el usuario no ingresa argumentos
 			if(characterArray.length() == 0) {
