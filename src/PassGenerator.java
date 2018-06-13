@@ -142,96 +142,95 @@ public class PassGenerator {
 		return Character.toString(ascii.charAt(letter));
 	}
 	
-	/**
-	 * Este método se encarga de recibir los argumentos de método principal main y de acuerdo a su contenido, generar 
-	 * la respectiva contraseña o en su defecto, mostrar el mensaje de error o ayuda al usuario.
-	*/	
+/**
+ * Este método se encarga de recibir los argumentos de método principal main y de acuerdo a su contenido, generar 
+ * la respectiva contraseña o en su defecto, mostrar el mensaje de error o ayuda al usuario.
+*/	
 		
-		public String returnPassword(String [] args) {
-			
-			StringBuilder characterArray = new StringBuilder();
-			int copyPassword = 0;
-			int size = 16;
-			int numberPasswords = 1;
-			String ambiguousCharacteres = "";
-			String [] excludeCharacteres = {"", ""};
-			//String characterArray = "";
-			String password = "";
-			
-			//Recorre la lista de argumentos para determinar que opciones solicita el usuario
-			for (int i = 0; i < args.length ; i++) {
-				if(args[i].indexOf("-Size") != -1) {
-					size = calculateInteger(args[i]);
-					args[i] = "NE";
-				}
-				if(args[i].indexOf("-T") != -1) {
-					numberPasswords = calculateInteger(args[i]);
-					args[i] = "NE";
-				}
-				if(args[i].indexOf("-E") != -1) {
-					excludeCharacteres = args[i].split(":");
-					args[i] = "NE";
-				}
-				switch(args[i]) {
-				
-				case "-U":
-					characterArray.append("U");
-					break;
-					
-				case "-L":
-					characterArray.append("L");
-					break;
-				
-				case "-N":
-					characterArray.append("N");
-					break;
-					
-				case "-S":
-					characterArray.append("S");
-					break;
-					
-				case "-A":
-					ambiguousCharacteres = "iILl1oO0";
-					break;
-					
-				case "-C":
-					copyPassword = 1;
-					break;
-				
-				case "-?":
-					HelpPasswordGenerator h = new HelpPasswordGenerator();
-					h.printHelp();
-					numberPasswords = 0;
-					break;
-					
-				case "NE":
-					break;
-					
-				default:
-					System.out.println("dir /?");
-					numberPasswords = 0;
-					i = args.length;
-					break;
-				}
-				
+	public String returnPassword(String [] args) {
+		
+		StringBuilder characterArray = new StringBuilder();
+		int copyPassword = 0;
+		int size = 16;
+		int numberPasswords = 1;
+		String ambiguousCharacteres = "";
+		String [] excludeCharacteres = {"", ""};
+		String password = "";
+		
+		//Recorre la lista de argumentos para determinar que opciones solicita el usuario
+		for (int i = 0; i < args.length ; i++) {
+			if(args[i].indexOf("-Size") != -1) {
+				size = calculateInteger(args[i]);
+				args[i] = "NE";
 			}
-			//Si el usuario no ingresa argumentos
-			if(characterArray.length() == 0) {
-				characterArray.append("ULN");
+			if(args[i].indexOf("-T") != -1) {
+				numberPasswords = calculateInteger(args[i]);
+				args[i] = "NE";
+			}
+			if(args[i].indexOf("-E") != -1) {
+				excludeCharacteres = args[i].split(":");
+				args[i] = "NE";
+			}
+			switch(args[i]) {
+			
+			case "-U":
+				characterArray.append("U");
+				break;
+				
+			case "-L":
+				characterArray.append("L");
+				break;
+			
+			case "-N":
+				characterArray.append("N");
+				break;
+				
+			case "-S":
+				characterArray.append("S");
+				break;
+				
+			case "-A":
+				ambiguousCharacteres = "iILl1oO0";
+				break;
+				
+			case "-C":
+				copyPassword = 1;
+				break;
+			
+			case "-?":
+				HelpPasswordGenerator h = new HelpPasswordGenerator();
+				h.printHelp();
+				numberPasswords = 0;
+				break;
+				
+			case "NE":
+				break;
+				
+			default:
+				System.out.println("dir /?");
+				numberPasswords = 0;
+				i = args.length;
+				break;
 			}
 			
-			//Se genera la cantidad de contraseñas de acuerdo a lo indicado por el usuario
-			for (int i = 0; i < numberPasswords ; i++) {
-				password = getPass(characterArray.toString(), size, ambiguousCharacteres, excludeCharacteres[1]);
-				System.out.println(password);
-			}
-			
-			//Si el usuario solicita copiar la última contraseña generada
-			while(copyPassword > 0) {
-				ClipBoard cb = new ClipBoard();
-				cb.copy(password);
-				copyPassword--;
-			}
-			return password;
 		}
+		//Si el usuario no ingresa argumentos
+		if(characterArray.length() == 0) {
+			characterArray.append("ULN");
+		}
+		
+		//Se genera la cantidad de contraseñas de acuerdo a lo indicado por el usuario
+		for (int i = 0; i < numberPasswords ; i++) {
+			password = getPass(characterArray.toString(), size, ambiguousCharacteres, excludeCharacteres[1]);
+			System.out.println(password);
+		}
+		
+		//Si el usuario solicita copiar la última contraseña generada
+		if(copyPassword > 0) {
+			ClipBoard cb = new ClipBoard();
+			cb.copy(password);
+			copyPassword--;
+		}
+		return password;
+	}
 }
